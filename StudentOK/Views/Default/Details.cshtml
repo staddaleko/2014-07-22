@@ -1,0 +1,44 @@
+﻿@model StudentOK.Models.StudentTabela
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <fieldset>
+        <legend>StudentTabela</legend>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Imię)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Imię)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Nazwisko)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Nazwisko)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Wiek)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Wiek)
+        </div>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

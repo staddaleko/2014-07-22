@@ -1,0 +1,9 @@
+﻿@*@model StudentOK.Models.StudentTabela*@
+
+<table>
+    <tr><th>Przedmiot</th><th>Ocena</th></tr>
+    @foreach (var e in ViewBag.p_o)
+    {
+        <tr><td>@e.nazwa</td><td>@e.ocena</td></tr>
+    }
+</table>

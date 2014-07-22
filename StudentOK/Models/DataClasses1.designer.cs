@@ -30,6 +30,12 @@ namespace StudentOK.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertPrzedmioty(Przedmioty instance);
+    partial void UpdatePrzedmioty(Przedmioty instance);
+    partial void DeletePrzedmioty(Przedmioty instance);
+    partial void InsertStu_Przed(Stu_Przed instance);
+    partial void UpdateStu_Przed(Stu_Przed instance);
+    partial void DeleteStu_Przed(Stu_Przed instance);
     partial void InsertStudentTabela(StudentTabela instance);
     partial void UpdateStudentTabela(StudentTabela instance);
     partial void DeleteStudentTabela(StudentTabela instance);
@@ -65,11 +71,333 @@ namespace StudentOK.Models
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<Przedmioty> Przedmioties
+		{
+			get
+			{
+				return this.GetTable<Przedmioty>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Stu_Przed> Stu_Przeds
+		{
+			get
+			{
+				return this.GetTable<Stu_Przed>();
+			}
+		}
+		
 		public System.Data.Linq.Table<StudentTabela> StudentTabelas
 		{
 			get
 			{
 				return this.GetTable<StudentTabela>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Przedmioty")]
+	public partial class Przedmioty : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID_przedmiotu;
+		
+		private string _Nazwa_przedmiotu;
+		
+		private EntitySet<Stu_Przed> _Stu_Przeds;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnID_przedmiotuChanging(int value);
+    partial void OnID_przedmiotuChanged();
+    partial void OnNazwa_przedmiotuChanging(string value);
+    partial void OnNazwa_przedmiotuChanged();
+    #endregion
+		
+		public Przedmioty()
+		{
+			this._Stu_Przeds = new EntitySet<Stu_Przed>(new Action<Stu_Przed>(this.attach_Stu_Przeds), new Action<Stu_Przed>(this.detach_Stu_Przeds));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_przedmiotu", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID_przedmiotu
+		{
+			get
+			{
+				return this._ID_przedmiotu;
+			}
+			set
+			{
+				if ((this._ID_przedmiotu != value))
+				{
+					this.OnID_przedmiotuChanging(value);
+					this.SendPropertyChanging();
+					this._ID_przedmiotu = value;
+					this.SendPropertyChanged("ID_przedmiotu");
+					this.OnID_przedmiotuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nazwa_przedmiotu", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Nazwa_przedmiotu
+		{
+			get
+			{
+				return this._Nazwa_przedmiotu;
+			}
+			set
+			{
+				if ((this._Nazwa_przedmiotu != value))
+				{
+					this.OnNazwa_przedmiotuChanging(value);
+					this.SendPropertyChanging();
+					this._Nazwa_przedmiotu = value;
+					this.SendPropertyChanged("Nazwa_przedmiotu");
+					this.OnNazwa_przedmiotuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Przedmioty_Stu_Przed", Storage="_Stu_Przeds", ThisKey="ID_przedmiotu", OtherKey="ID_Przedmiotu")]
+		public EntitySet<Stu_Przed> Stu_Przeds
+		{
+			get
+			{
+				return this._Stu_Przeds;
+			}
+			set
+			{
+				this._Stu_Przeds.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Stu_Przeds(Stu_Przed entity)
+		{
+			this.SendPropertyChanging();
+			entity.Przedmioty = this;
+		}
+		
+		private void detach_Stu_Przeds(Stu_Przed entity)
+		{
+			this.SendPropertyChanging();
+			entity.Przedmioty = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Stu_Przed")]
+	public partial class Stu_Przed : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID_Studenta;
+		
+		private int _ID_Przedmiotu;
+		
+		private int _Ocena;
+		
+		private EntityRef<Przedmioty> _Przedmioty;
+		
+		private EntityRef<StudentTabela> _StudentTabela;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnID_StudentaChanging(int value);
+    partial void OnID_StudentaChanged();
+    partial void OnID_PrzedmiotuChanging(int value);
+    partial void OnID_PrzedmiotuChanged();
+    partial void OnOcenaChanging(int value);
+    partial void OnOcenaChanged();
+    #endregion
+		
+		public Stu_Przed()
+		{
+			this._Przedmioty = default(EntityRef<Przedmioty>);
+			this._StudentTabela = default(EntityRef<StudentTabela>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Studenta", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID_Studenta
+		{
+			get
+			{
+				return this._ID_Studenta;
+			}
+			set
+			{
+				if ((this._ID_Studenta != value))
+				{
+					if (this._StudentTabela.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnID_StudentaChanging(value);
+					this.SendPropertyChanging();
+					this._ID_Studenta = value;
+					this.SendPropertyChanged("ID_Studenta");
+					this.OnID_StudentaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID_Przedmiotu", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID_Przedmiotu
+		{
+			get
+			{
+				return this._ID_Przedmiotu;
+			}
+			set
+			{
+				if ((this._ID_Przedmiotu != value))
+				{
+					if (this._Przedmioty.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnID_PrzedmiotuChanging(value);
+					this.SendPropertyChanging();
+					this._ID_Przedmiotu = value;
+					this.SendPropertyChanged("ID_Przedmiotu");
+					this.OnID_PrzedmiotuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ocena", DbType="Int NOT NULL")]
+		public int Ocena
+		{
+			get
+			{
+				return this._Ocena;
+			}
+			set
+			{
+				if ((this._Ocena != value))
+				{
+					this.OnOcenaChanging(value);
+					this.SendPropertyChanging();
+					this._Ocena = value;
+					this.SendPropertyChanged("Ocena");
+					this.OnOcenaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Przedmioty_Stu_Przed", Storage="_Przedmioty", ThisKey="ID_Przedmiotu", OtherKey="ID_przedmiotu", IsForeignKey=true)]
+		public Przedmioty Przedmioty
+		{
+			get
+			{
+				return this._Przedmioty.Entity;
+			}
+			set
+			{
+				Przedmioty previousValue = this._Przedmioty.Entity;
+				if (((previousValue != value) 
+							|| (this._Przedmioty.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Przedmioty.Entity = null;
+						previousValue.Stu_Przeds.Remove(this);
+					}
+					this._Przedmioty.Entity = value;
+					if ((value != null))
+					{
+						value.Stu_Przeds.Add(this);
+						this._ID_Przedmiotu = value.ID_przedmiotu;
+					}
+					else
+					{
+						this._ID_Przedmiotu = default(int);
+					}
+					this.SendPropertyChanged("Przedmioty");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StudentTabela_Stu_Przed", Storage="_StudentTabela", ThisKey="ID_Studenta", OtherKey="ID", IsForeignKey=true)]
+		public StudentTabela StudentTabela
+		{
+			get
+			{
+				return this._StudentTabela.Entity;
+			}
+			set
+			{
+				StudentTabela previousValue = this._StudentTabela.Entity;
+				if (((previousValue != value) 
+							|| (this._StudentTabela.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._StudentTabela.Entity = null;
+						previousValue.Stu_Przeds.Remove(this);
+					}
+					this._StudentTabela.Entity = value;
+					if ((value != null))
+					{
+						value.Stu_Przeds.Add(this);
+						this._ID_Studenta = value.ID;
+					}
+					else
+					{
+						this._ID_Studenta = default(int);
+					}
+					this.SendPropertyChanged("StudentTabela");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -88,6 +416,8 @@ namespace StudentOK.Models
 		
 		private int _Wiek;
 		
+		private EntitySet<Stu_Przed> _Stu_Przeds;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -104,6 +434,7 @@ namespace StudentOK.Models
 		
 		public StudentTabela()
 		{
+			this._Stu_Przeds = new EntitySet<Stu_Przed>(new Action<Stu_Przed>(this.attach_Stu_Przeds), new Action<Stu_Przed>(this.detach_Stu_Przeds));
 			OnCreated();
 		}
 		
@@ -187,6 +518,19 @@ namespace StudentOK.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="StudentTabela_Stu_Przed", Storage="_Stu_Przeds", ThisKey="ID", OtherKey="ID_Studenta")]
+		public EntitySet<Stu_Przed> Stu_Przeds
+		{
+			get
+			{
+				return this._Stu_Przeds;
+			}
+			set
+			{
+				this._Stu_Przeds.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -205,6 +549,18 @@ namespace StudentOK.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Stu_Przeds(Stu_Przed entity)
+		{
+			this.SendPropertyChanging();
+			entity.StudentTabela = this;
+		}
+		
+		private void detach_Stu_Przeds(Stu_Przed entity)
+		{
+			this.SendPropertyChanging();
+			entity.StudentTabela = null;
 		}
 	}
 }

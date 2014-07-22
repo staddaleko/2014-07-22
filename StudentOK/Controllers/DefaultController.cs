@@ -23,7 +23,8 @@ namespace StudentOK.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            var SD = (from s in dba.StudentTabelas where s.ID == id select s).First();
+            return View("Details", SD);
         }
 
         //
@@ -68,8 +69,8 @@ namespace StudentOK.Controllers
             SU.Wiek = S.Wiek;
             dba.SubmitChanges();
 
-                return RedirectToAction("Index");
-            
+            return RedirectToAction("Index");
+
         }
 
         //
@@ -77,10 +78,15 @@ namespace StudentOK.Controllers
 
         public ActionResult Delete(int id)
         {
-            var S = (from s in dba.StudentTabelas where s.ID == id select s).ToList();
-            dba.StudentTabelas.DeleteOnSubmit(S[0]);
-            dba.SubmitChanges();
+            var S = (from s in dba.StudentTabelas where s.ID == id select s).First();
+            var asoc = (from a in dba.Stu_Przeds where a.ID_Studenta == id select a).ToList();
+            if (asoc.Count == 0)
+            {
+                dba.StudentTabelas.DeleteOnSubmit(S);
+                dba.SubmitChanges();
+            }
             return RedirectToAction("Index");
+
         }
 
         //
@@ -99,6 +105,17 @@ namespace StudentOK.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult PartialDetails(int id_s)
+        {
+            ViewBag.p_o = (from p in dba.Przedmioties
+                           join asoc in dba.Stu_Przeds on p.ID_przedmiotu equals asoc.ID_Przedmiotu
+                           join s in dba.StudentTabelas on asoc.ID_Studenta equals s.ID
+                           where s.ID == id_s
+                           select new { p.Nazwa_przedmiotu, asoc.Ocena }).ToList();
+
+            return PartialView("PartialDetails");
         }
     }
 }

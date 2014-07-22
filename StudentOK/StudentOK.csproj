@@ -131,9 +131,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DataClasses1.cs">
-      <DependentUpon>DataClasses1.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Models\DataClasses1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -236,6 +233,8 @@
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Default\Create.cshtml" />
     <Content Include="Views\Default\Edit.cshtml" />
+    <Content Include="Views\Default\PartialDetails.cshtml" />
+    <Content Include="Views\Default\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

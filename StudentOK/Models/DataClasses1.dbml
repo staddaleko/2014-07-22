@@ -1,11 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="StudentBazaDanych" Class="StudentDataContextLINQ" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=S219-4\sqlexpress;Initial Catalog=StudentBazaDanych;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="StudentBazaDanychConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Przedmioty" Member="Przedmioties">
+    <Type Name="Przedmioty">
+      <Column Name="ID_przedmiotu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nazwa_przedmiotu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Przedmioty_Stu_Przed" Member="Stu_Przeds" ThisKey="ID_przedmiotu" OtherKey="ID_Przedmiotu" Type="Stu_Przed" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Stu_Przed" Member="Stu_Przeds">
+    <Type Name="Stu_Przed">
+      <Column Name="ID_Studenta" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ID_Przedmiotu" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ocena" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Przedmioty_Stu_Przed" Member="Przedmioty" ThisKey="ID_Przedmiotu" OtherKey="ID_przedmiotu" Type="Przedmioty" IsForeignKey="true" />
+      <Association Name="StudentTabela_Stu_Przed" Member="StudentTabela" ThisKey="ID_Studenta" OtherKey="ID" Type="StudentTabela" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.StudentTabela" Member="StudentTabelas">
     <Type Name="StudentTabela">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Imię" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Nazwisko" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Wiek" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="StudentTabela_Stu_Przed" Member="Stu_Przeds" ThisKey="ID" OtherKey="ID_Studenta" Type="Stu_Przed" />
     </Type>
   </Table>
 </Database>
