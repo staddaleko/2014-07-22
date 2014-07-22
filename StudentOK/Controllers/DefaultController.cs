@@ -51,25 +51,25 @@ namespace StudentOK.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            var S = (from s in dba.StudentTabelas where s.ID == id select s).First();
+
+            return View("Edit", S);
         }
 
         //
         // POST: /Default/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(StudentTabela S)
         {
-            try
-            {
-                // TODO: Add update logic here
+            var SU = (from s in dba.StudentTabelas where s.ID == S.ID select s).First();
+            SU.Imię = S.Imię;
+            SU.Nazwisko = S.Nazwisko;
+            SU.Wiek = S.Wiek;
+            dba.SubmitChanges();
 
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            
         }
 
         //
@@ -77,7 +77,10 @@ namespace StudentOK.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            var S = (from s in dba.StudentTabelas where s.ID == id select s).ToList();
+            dba.StudentTabelas.DeleteOnSubmit(S[0]);
+            dba.SubmitChanges();
+            return RedirectToAction("Index");
         }
 
         //
